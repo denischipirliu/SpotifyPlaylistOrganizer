@@ -1,0 +1,40 @@
+# Angular build output
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/
+/.angular/cache/
+
+# Node modules and logs
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+/package-lock.json
+
+# IDEs and editors
+.idea/
+.vscode/
+/.history/
+*.sublime-workspace
+.project
+.classpath
+.c9/
+/*.launch
+.settings/
+.env
+
+# Test coverage, reports, temp files
+/coverage/
+/connect.lock
+/libpeerconnection.log
+/testem.log
+/typings/
+/.sass-cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Local certificates
+localhost.crt
+localhost.key

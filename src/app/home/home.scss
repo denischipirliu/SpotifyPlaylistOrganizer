@@ -1,0 +1,44 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 400px;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
+.mat-button-toggle-checked {
+  color: #1db954 !important;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mat-divider {
+  border-top-color: #1db954 !important;
+  border-top-width: 8px;
+  border-radius: 8px;
+}
+

@@ -1,0 +1,45 @@
+@use "@angular/material" as mat;
+@use "sass:map";
+@use "./themes/theme-colors" as spotify;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+// 1) Core styles
+@include mat.core();
+
+// 2) Build your theme — **no secondary, use tertiary instead**:
+$spotify-theme: mat.define-theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: spotify.$primary-palette,
+        tertiary: spotify.$tertiary-palette,
+      ),
+      typography: (
+        plain-family: Poppins,
+        brand-family: sans-serif,
+        bold-weight: 900,
+        medium-weight: 500,
+        regular-weight: 300,
+      ),
+    )
+);
+
+
+// 3) Apply it globally
+html {
+  @include mat.core-theme($spotify-theme);
+  @include mat.button-theme($spotify-theme);
+  @include mat.all-component-themes($spotify-theme);
+}
+
+// 4) App background & text
+html,
+body {
+  background: #191414;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.warn-button {
+  @include mat.button-color($spotify-theme, $color-variant: tertiary);
+}

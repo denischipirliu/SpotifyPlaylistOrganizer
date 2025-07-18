@@ -1,0 +1,108 @@
+@if (loading) {
+  <mat-progress-bar mode="indeterminate">
+  </mat-progress-bar>
+} @else {
+  <mat-sidenav-container class="main-layout">
+    <mat-sidenav mode="side" [(opened)]="isExpanded" class="sidebar">
+      <div class="header">
+        <h3>Group By</h3>
+        @if (currentFilters.size > 0) {
+          <button matButton="tonal" class="warn-button" (click)="clearFilter()">
+            Clear Filters
+          </button>
+        }
+      </div>
+      <mat-accordion>
+        @for (category of sidebarCategories; track category.name) {
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ category.name }}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="sidebar-panel">
+              <mat-button-toggle-group
+                appearance="standard"
+                vertical
+                multiple
+                [value]="currentFilters.get(category.name) || []"
+                (change)="onFilterSelect(category.name, $event.value)"
+                [hideSingleSelectionIndicator]="true"
+              >
+                @for (item of category.items; track item.name) {
+                  <mat-button-toggle [value]="item.name">
+                    {{ item.name }} ({{ item.trackCount }} tracks/ {{ item.artistCount }} artists)
+                  </mat-button-toggle>
+                }
+              </mat-button-toggle-group>
+
+            </mat-nav-list>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+    </mat-sidenav>
+
+    <mat-sidenav-content style="width: 100%">
+      @if (pagedTracks.length > 0) {
+        <mat-card class="content">
+          @if (currentFilters.size === 0) {
+            <mat-card-title>
+              All Saved Tracks
+            </mat-card-title>
+          } @else {
+            <mat-card-header class="header">
+              <mat-card-title>
+                <div>
+                  Filtered by:
+                  @for (entry of Array.from(currentFilters.entries()); track entry[0]) {
+                    {{ entry[0] }}: {{ entry[1].join(', ') }}&nbsp;
+                  }
+                </div>
+                <div>
+                  <mat-form-field appearance="outline" style="margin-right: 8px;">
+                    <mat-label>Playlist Name</mat-label>
+                    <input matInput [(ngModel)]="createPlaylist.name">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <input matInput [(ngModel)]="createPlaylist.description">
+                  </mat-form-field>
+                  <mat-checkbox [(ngModel)]="createPlaylist.public">Public</mat-checkbox>
+                </div>
+              </mat-card-title>
+
+              <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="generatePlaylist()">Generate Playlist</button>
+              </mat-card-actions>
+            </mat-card-header>
+
+          }
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-list>
+              @for (track of pagedTracks; track track.id) {
+                <mat-list-item>{{ $index + 1 + pageSize * currentPage }}. {{ track.name }}
+                  — {{ track.artists[0].name }}
+                </mat-list-item>
+                <img mat-card-sm-image [src]="track.album.images[0].url">
+              }
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="paginator-container">
+          <mat-paginator
+            [length]="filteredTracks.length"
+            [pageSize]="pageSize"
+            [pageIndex]="currentPage"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)"
+          ></mat-paginator>
+        </div>
+
+      } @else {
+        <p>No tracks found for this filter.</p>
+      }
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}
+
